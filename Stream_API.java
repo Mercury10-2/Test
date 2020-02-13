@@ -8,23 +8,24 @@ public class Stream_API {
     /**
      *  Добавил метод main с автогенерацией данных и выводом их в консоль.
      *  Добавил вывод результата в консоль.
-     *  Исправил названия классов MembersGroup на Group, Finder на Service и метода findOldMembers на findByAge.
+     *  Изменил названия классов MembersGroup на Group, Finder на Service и метода findOldMembers на findByAge.
      *  Изменил возвращаемое значение findByAge с Set'а на List, т.к. имена могут дублироваться, а Set хранит
      *      только уникальные значения, что в случае повторяющихся имён приведёт к потере части данных
      *      и некорректному результату.
      *  Изменил название списка в findByAge с groupsNames на membersNames.
+     *  Изменил название параметра в findByAge с targetAge на age.
      *  Изменил логику поиска в findByAge с exclusive на inclusive в соответствии с общепринятыми нормами поиска.
      *
-     *  Исправил комментарии в классе Service:
+     *  Изменил комментарии в классе Service:
      *      1:
      *              "@return список имен групп из списка групп старше возраста targetAge"
      *          как намеренно запутывающий и противоречащий тому, что выводит в качестве результата дефолтная версия
      *          метода findOldMembers, на:
-     *              "@return список имён членов групп, чей возраст старше targetAge".
+     *              "@return список имён людей старше targetAge"
      *      2:
-     *              "Поиск групп людей старше определенного возраста."
+     *              "Поиск групп людей старше определенного возраста"
      *          на:
-     *              "Поиск людей старше определенного возраста."
+     *              "Поиск людей по возрасту"
      *      3:
      *              "@param groups группы"
      *          на:
@@ -93,17 +94,17 @@ public class Stream_API {
     public class Service {
 
         /**
-         * Поиск людей старше определенного возраста.
+         * Поиск людей по возрасту.
          *
          * @param groups список групп
-         * @param targetAge минимальный возраст
-         * @return список имён членов групп, чей возраст старше targetAge
+         * @param age минимальный возраст
+         * @return список имён людей старше age
          */
 
-        public List<String> findByAge(List<Group> groups, int targetAge) {
+        public List<String> findByAge(List<Group> groups, int age) {
             final List<String> membersNames = new ArrayList<>();
             groups.forEach(group -> {
-                group.getMembers().stream().filter(member -> member.getAge() >= targetAge)
+                group.getMembers().stream().filter(member -> member.getAge() >= age)
                         .forEach(member -> {
                             membersNames.add(member.getName());
                 });
