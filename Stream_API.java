@@ -1,18 +1,19 @@
 package Others;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Stream_API {
 
     /**
      *  Добавил метод main с автогенерацией данных и выводом их в консоль.
      *  Добавил вывод результата в консоль.
-     *  Исправил названия классов MembersGroup, Finder и метода findOldMembers как неадекватные.
+     *  Исправил названия классов MembersGroup, Service и метода findOldMembers как неадекватные.
+     *  Изменил возвращаемое значение findByAge с Set'а на List, т.к. имена могут дублироваться, а Set хранит
+     *      только уникальные значения, что приведёт к потере части данных в случае повторяющихся имён
+     *      и некорректному результату.
      *
-     *  Исправил комментарии в классе Finder:
+     *  Исправил комментарии в классе Service:
      *      1:
      *          "@return список имен групп из списка групп старше возраста targetAge"
      *      как намеренно запутывающий и противоречащий тому, что выводит в качестве результата дефолтная версия метода
@@ -70,16 +71,16 @@ public class Stream_API {
             System.out.println("-------------------");
         }
 
-        print(stream_api.new Finder().findByAge(list, 15));
+        print(stream_api.new Service().findByAge(list, 15));
     }
 
-    private static void print(Set<String> set) {
+    private static void print(List<String> set) {
         System.out.println("Result:");
         for (String str : set)
             System.out.println(str);
     }
 
-    public class Finder {
+    public class Service {
 
         /**
          * Поиск людей старше определенного возраста.
@@ -89,8 +90,8 @@ public class Stream_API {
          * @return множество имён членов групп, чей возраст старше targetAge
          */
 
-        public Set<String> findByAge(List<Group> groups, int targetAge) {
-            final Set<String> membersNames = new HashSet<>();
+        public List<String> findByAge(List<Group> groups, int targetAge) {
+            final List<String> membersNames = new ArrayList<>();
             groups.forEach(group -> {
                 group.getMembers().stream().filter(member -> member.getAge() > targetAge)
                         .forEach(member -> {
