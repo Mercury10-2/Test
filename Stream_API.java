@@ -12,28 +12,20 @@ public class Stream_API {
      *  Изменил возвращаемое значение findByAge с Set'а на List, т.к. имена могут дублироваться, а Set хранит
      *      только уникальные значения, что в случае повторяющихся имён приведёт к потере части данных
      *      и некорректному результату.
-     *  Изменил название списка в findByAge с groupsNames на membersNames.
-     *  Изменил название параметра в findByAge с targetAge на age.
      *  Изменил логику поиска в findByAge с exclusive на inclusive в соответствии с общепринятыми нормами поиска.
+     *  Изменил название коллекции в findByAge с groupsNames на membersNames.
+     *  Изменил название входящего параметра в findByAge с targetAge на age.
      *
      *  Изменил комментарии в классе Service:
-     *      1:
-     *              "@return список имен групп из списка групп старше возраста targetAge"
-     *          как намеренно запутывающий и противоречащий тому, что выводит в качестве результата дефолтная версия
-     *          метода findOldMembers, на:
-     *              "@return список имён людей старше targetAge"
-     *      2:
-     *              "Поиск групп людей старше определенного возраста"
-     *          на:
-     *              "Поиск людей по возрасту"
-     *      3:
-     *              "@param groups группы"
-     *          на:
-     *              "@param groups список групп"
-     *      4:
-     *              "@param targetAge возраст для поиска"
-     *          на:
-     *              "@param targetAge минимальный возраст"
+     *      1:  "@return список имен групп из списка групп старше возраста targetAge"
+     *          как противоречащий тому, что выводит в качестве результата дефолтная версия метода findOldMembers, на:
+     *          "@return список имён людей старше age"
+     *      2:  "Поиск групп людей старше определенного возраста" на:
+     *          "Поиск людей по возрасту"
+     *      3:  "@param groups группы" на:
+     *          "@param groups список групп"
+     *      4:  "@param age возраст для поиска" на:
+     *          "@param age минимальный возраст"
      */
 
     public class Group {
@@ -66,6 +58,28 @@ public class Stream_API {
         }
     }
 
+    public class Service {
+
+        /**
+         * Поиск людей по возрасту.
+         *
+         * @param groups список групп
+         * @param age минимальный возраст
+         * @return список имён людей старше age
+         */
+
+        public List<String> findByAge(List<Group> groups, int age) {
+            final List<String> membersNames = new ArrayList<>();
+            groups.forEach(group -> {
+                group.getMembers().stream().filter(member -> member.getAge() >= age)
+                        .forEach(member -> {
+                            membersNames.add(member.getName());
+                });
+            });
+            return membersNames;
+        }
+    }
+
     public static void main(String[] args) {
         Stream_API stream_api = new Stream_API();
         List<Group> list = new ArrayList<>();
@@ -89,27 +103,5 @@ public class Stream_API {
         System.out.println("Result:");
         for (String str : set)
             System.out.println(str);
-    }
-
-    public class Service {
-
-        /**
-         * Поиск людей по возрасту.
-         *
-         * @param groups список групп
-         * @param age минимальный возраст
-         * @return список имён людей старше age
-         */
-
-        public List<String> findByAge(List<Group> groups, int age) {
-            final List<String> membersNames = new ArrayList<>();
-            groups.forEach(group -> {
-                group.getMembers().stream().filter(member -> member.getAge() >= age)
-                        .forEach(member -> {
-                            membersNames.add(member.getName());
-                });
-            });
-            return membersNames;
-        }
     }
 }
