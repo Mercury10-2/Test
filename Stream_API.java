@@ -90,7 +90,7 @@ public class Stream_API {
             list.add(stream_api.new Group(String.valueOf(i), members));
         }
         for (Group grp : list) {
-            System.out.println("Group groupName: " + grp.getGroupName());
+            System.out.println("Group name: " + grp.getGroupName());
             for (Member mbr : grp.getMembers())
                 System.out.println("Name: " + mbr.getName() + ", age: " + mbr.getAge());
             System.out.println("-------------------");
